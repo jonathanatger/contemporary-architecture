@@ -1,7 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
 :root {
   font-family: Inter, Helvetica, Avenir, Arial, sans-serif;
 
@@ -15,7 +18,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  margin: 0;
+html {
   scroll-behavior: smooth;
 }

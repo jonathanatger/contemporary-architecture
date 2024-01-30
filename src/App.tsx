@@ -1,19 +1,25 @@
-// import "./index.css";
+import React from "react";
+import { WebsiteTitle } from "./components/WebsiteTitle";
+import { Filters } from "./components/Filters";
+import { Map } from "./components/Map";
 
 function App() {
   return (
     <>
-      <div style={{ height: "100vh" }} className="flex flex-col bg-gray-600">
-        <h1 className="text-5xl font-italic underline text-green-300 border-green-300 italic decoration-green-700 decoration-4 underline-offset-2 leading-snug truncate p-10">
-          This is a Vite app with React in TS ! Lorem ipsum, dolor sit amet
-          consectetur adipisicing elit. Totam at nemo nobis. Totam rerum
-          inventore recusandae nihil expedita quam, molestias ex iusto obcaecati
-          reiciendis incidunt soluta voluptas ad laboriosam consequuntur.
-        </h1>
-        <p></p>
-        <h1 className="text-4xl font-italic underline text-green-300">
-          And this is a subtitle for the sake of it
-        </h1>
+      <div className="flex flex-col items-center  bg-slate-800 h-svh w-svw">
+        <div className="bg-blue-300 h-32 container">
+          <WebsiteTitle
+            title="Archimap"
+            subtitle="L'architecture contemporaine listée, près de chez vous"
+            disabled={false}
+          />
+        </div>
+        <div className="flex justify-center bg-red-300 h-32 container">
+          <Filters />
+        </div>
+        <div className="flex bg-violet-300 min-h-min container justify-center">
+          <Map />
+        </div>
       </div>
     </>
   );
