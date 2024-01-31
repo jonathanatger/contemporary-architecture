@@ -1,5 +1,3 @@
-import React from "react";
-
 interface MyTitleProps {
   title: string;
   subtitle: string;
@@ -20,3 +18,15 @@ export const WebsiteTitle = function ({
     )
   );
 };
+
+/* 
+export const functionalComponent = ({
+  message,
+  disabled,
+}: {
+  message: string;
+  disabled: boolean;
+}) => {
+  return !disabled && <h1 className="text-2xl text-green-300">{message}</h1>;
+};
+*/
