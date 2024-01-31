@@ -16,27 +16,26 @@ const MapsComponent = function ({
   zoom,
 }: MapsComponentInterface): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<google.maps.Map>();
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
   useEffect(() => {
     if (ref.current && !map) {
       setMap(
         new window.google.maps.Map(ref.current, {
-          center: center1,
-          zoom: zoom1,
+          center: center,
+          zoom: zoom,
         })
       );
     }
   }, [ref, map]);
-  return <div ref={ref}></div>;
+
+  return <div ref={ref} className="w-full h-full"></div>;
 };
 
 const render = function (status: Status): ReactElement {
-  if (status === Status.LOADING) return <h3>{status} ..</h3>;
-  if (status === Status.FAILURE) return <h3>{status} ...</h3>;
   if (status === Status.SUCCESS)
     return (
-      <div>
+      <div className="h-full w-full">
         <MapsComponent center={center1} zoom={zoom1} />
       </div>
     );
@@ -44,7 +43,7 @@ const render = function (status: Status): ReactElement {
 };
 
 export const GoogleMap = function () {
-  return <Wrapper apiKey={"YOUR_API_KEY"} render={render}></Wrapper>;
+  return <Wrapper apiKey={MAPS_KEY} render={render}></Wrapper>;
 };
 
 // export const GoogleMap = () => {
