@@ -1,22 +1,31 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import mapStyle from "./MapStyle.json";
+import mapStyle from "./gmapcomponents/MapStyle.json";
+import { useMarkers } from "./gmapcomponents/Marker.js";
+import { useFetch } from "./gmapcomponents/dataFetching";
 let MAPS_KEY = import.meta.env.VITE_MAPS_KEY;
 
 interface MapsComponentInterface {
   center: google.maps.LatLngLiteral;
   zoom: number;
+  style?: google.maps.MapTypeStyle[];
 }
 
-const center1 = { lat: -34.397, lng: 150.644 };
-const zoom1 = 8;
+//iniating the placement of the map
+const center1 = { lat: 46.2141033633116, lng: 5.23390479986328 };
+const zoom1 = 12;
 
+// Component defining the logic around the Map item
 const MapsComponent = function ({
   center,
   zoom,
+  style,
 }: MapsComponentInterface): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [url, setUrl] = useState<string>(
+    "https://data.culture.gouv.fr/api/explore/v2.1/catalog/datasets/liste-des-edifices-labellises-architecture-contemporaine-remarquable-acr/records?where=auteurs_pour_pop_autr%3D%22Pinsard%20Pierre%20(architecte)%22&limit=20"
+  );
 
   useEffect(() => {
     if (ref.current && !map) {
@@ -24,59 +33,31 @@ const MapsComponent = function ({
         new window.google.maps.Map(ref.current, {
           center: center,
           zoom: zoom,
+          styles: style,
         })
       );
     }
   }, [ref, map]);
 
-  return <div ref={ref} className="w-full h-full"></div>;
+  const { data, loading, error } = useFetch(url);
+
+  useMarkers(map, data, loading);
+
+  return <div ref={ref} className="h-full w-full" />;
 };
 
+// Checks if the Map loaded and displays a status report if not
 const render = function (status: Status): ReactElement {
   if (status === Status.SUCCESS)
     return (
       <div className="h-full w-full">
-        <MapsComponent center={center1} zoom={zoom1} />
+        <MapsComponent center={center1} zoom={zoom1} style={mapStyle} />
       </div>
     );
   else return <h3>{status}</h3>;
 };
 
+// Wrapper component makes the call to the Google Maps API and renders the render component
 export const GoogleMap = function () {
   return <Wrapper apiKey={MAPS_KEY} render={render}></Wrapper>;
 };
-
-// export const GoogleMap = () => {
-//   const [map, setMap] = useState<google.maps.Map | null>(null);
-
-//   useEffect(() => {
-//     // Load the Google Maps JavaScript API script
-//     const script = document.createElement("script");
-//     script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&callback=initMap`;
-//     script.async = true;
-//     window.initMap = initMap;
-//     document.body.appendChild(script);
-
-//     // Initialize the map
-//     function initMap() {
-//       const google = window.google;
-//       const mapInstance = new google.maps.Map(document.getElementById("map"), {
-//         center: { lat: 37.7749, lng: -122.4194 }, // Default center (San Francisco)
-//         zoom: 12, // Default zoom level
-//       });
-//       setMap(mapInstance);
-//     }
-
-//     return () => {
-//       // Clean up function to remove the script and event listener
-//       document.body.removeChild(script);
-//       window.removeEventListener("initMap", initMap);
-//     };
-//   }, []);
-
-//   return (
-//     <div id="map" className="w-full h-full">
-//       Loading map...
-//     </div>
-//   );
-// };
