@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import mapStyle from "./gmapcomponents/MapStyle.json";
-import { useMarkers } from "./gmapcomponents/Marker.js";
+import { useMarkers } from "./gmapcomponents/Markers.js";
 import { useFetch } from "./gmapcomponents/dataFetching";
 let MAPS_KEY = import.meta.env.VITE_MAPS_KEY;
 

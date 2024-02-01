@@ -6,10 +6,10 @@ export function useMarkers(
   data: buildingData[] | null,
   loading: boolean
 ) {
-  //   const infoWindow = new google.maps.InfoWindow();
+  // const infoWindow = new google.maps.InfoWindow();
   const [markers, setMarkers] = useState<
-    null | google.maps.marker.AdvancedMarkerElement[]
-  >(null);
+    google.maps.marker.AdvancedMarkerElement[]
+  >([]);
 
   useEffect(() => {
     if (data && !loading) {
@@ -25,25 +25,22 @@ export function useMarkers(
           map: map,
           content: buildInfoTextBox(building.titre_courant_tico),
         });
-
-        markerElement.addListener("click", () => {
-          //   infoWindow.close();
-          //   infoWindow.setContent(markerElement.getTitle());
-          //   infoWindow.open(marker.getMap(), markerElement);
-        });
-
-        markersArray.push(markerElement);
+        // markerElement.addListener("click", () => {
+        //   infoWindow.close();
+        //   infoWindow.setContent(markerElement.getTitle());
+        //   infoWindow.open(marker.getMap(), markerElement);
+        // });
+        // markersArray.push(markerElement);
       }
-
-      setMarkers(markersArray);
+      // setMarkers(markersArray);
     }
   }, [data]);
 
-  useEffect(() => {
-    markers?.forEach((markerElement) => {
-      //   markerElement.setMap(map);
-    });
-  }, [map, markers]);
+  // useEffect(() => {
+  //   markers.forEach((markerElement) => {
+  //       markerElement.setMap(map);
+  //   });
+  // }, [map, markers]);
 }
 
 // Format the results on the map
