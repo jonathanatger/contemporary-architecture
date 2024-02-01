@@ -8,7 +8,6 @@ let MAPS_KEY = import.meta.env.VITE_MAPS_KEY;
 interface MapsComponentInterface {
   center: google.maps.LatLngLiteral;
   zoom: number;
-  style?: google.maps.MapTypeStyle[];
 }
 
 //iniating the placement of the map
@@ -19,13 +18,13 @@ const zoom1 = 12;
 const MapsComponent = function ({
   center,
   zoom,
-  style,
 }: MapsComponentInterface): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [url, setUrl] = useState<string>(
-    "https://data.culture.gouv.fr/api/explore/v2.1/catalog/datasets/liste-des-edifices-labellises-architecture-contemporaine-remarquable-acr/records?where=auteurs_pour_pop_autr%3D%22Pinsard%20Pierre%20(architecte)%22&limit=20"
-  );
+  const [infoDisplayed, setInfoDisplayed] = useState({
+    display: true,
+    name: "blabla",
+  });
 
   useEffect(() => {
     if (ref.current && !map) {
@@ -33,13 +32,13 @@ const MapsComponent = function ({
         new window.google.maps.Map(ref.current, {
           center: center,
           zoom: zoom,
-          styles: style,
+          mapId: "fb0ed05d8f32c234",
         })
       );
     }
   }, [ref, map]);
 
-  const { data, loading, error } = useFetch(url);
+  const { data, loading, error } = useFetch();
 
   useMarkers(map, data, loading);
 
@@ -51,7 +50,7 @@ const render = function (status: Status): ReactElement {
   if (status === Status.SUCCESS)
     return (
       <div className="h-full w-full">
-        <MapsComponent center={center1} zoom={zoom1} style={mapStyle} />
+        <MapsComponent center={center1} zoom={zoom1} />
       </div>
     );
   else return <h3>{status}</h3>;
