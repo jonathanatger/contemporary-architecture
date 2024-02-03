@@ -1,23 +1,30 @@
 import { useEffect, useState, useContext } from "react";
 import { buildingData } from "./buildingDatatype";
-import { InfoContext } from "../../App";
 async function initMarker(): Promise<void> {
   // @ts-ignore
   const { AdvancedMarkerElement, PinElement } =
     (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
 }
 
+//Defining the information displayed when an address gets selected
+interface BuildingInfoContextType {
+  display: boolean;
+  name: string;
+}
+
 export function useMarkers(
   map: google.maps.Map | null,
   data: buildingData[] | null,
-  loading: boolean
+  loading: boolean,
+  infoDisplayed: BuildingInfoContextType,
+  setInfoDisplayed: React.Dispatch<
+    React.SetStateAction<BuildingInfoContextType>
+  >
 ) {
   // const infoWindow = new google.maps.InfoWindow();
   const [markers, setMarkers] = useState<
     google.maps.marker.AdvancedMarkerElement[]
   >([]);
-  const [buildingIdDisplayed, setBuildingIdDisplayed] = useState();
-  const info = useContext(InfoContext);
 
   useEffect(() => {
     initMarker();
@@ -51,8 +58,11 @@ export function useMarkers(
         });
 
         markerElement.addListener("click", () => {
-          info.setInfoContext({ display: true, name: "whatever" });
           toggleMarkerHighlight(markerElement);
+          setInfoDisplayed({
+            display: true,
+            name: building.titre_courant_tico,
+          });
         });
 
         markersArray.push(markerElement);

@@ -29,7 +29,9 @@ export function useFetch() {
       })
       .catch((err) => {
         setLoading(false);
-        setError("Error in the data fetching to the source data.gouv.fr");
+        setError(
+          "Error in the data fetching to the source data.gouv.fr : " + err
+        );
         console.log(err);
       });
   }, [url]);
