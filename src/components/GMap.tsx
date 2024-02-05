@@ -3,7 +3,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useMarkers } from "./gmapcomponents/Markers.js";
 import { useFetch } from "./gmapcomponents/dataFetching";
 import { Info } from "./gmapcomponents/Info.js";
-import { AdressSelector } from "./gmapcomponents/AdresseSelector.js";
+import { AdressSelector } from "./gmapcomponents/AdressSelector.js";
 
 let MAPS_KEY = import.meta.env.VITE_MAPS_KEY;
 
@@ -40,6 +40,12 @@ const MapsComponent = function (): React.JSX.Element {
           center: mapCenter,
           zoom: firstZoom,
           mapId: "fb0ed05d8f32c234",
+          zoomControl: true,
+          mapTypeControl: false,
+          scaleControl: false,
+          streetViewControl: true,
+          rotateControl: false,
+          fullscreenControl: false,
         })
       );
     }
