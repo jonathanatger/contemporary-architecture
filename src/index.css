@@ -94,7 +94,6 @@
 
 .compacted {
   div.compact {
-    font-size: xx-large;
   }
 
   div.full {
@@ -102,6 +101,4 @@
   }
 }
 .marker-font {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }

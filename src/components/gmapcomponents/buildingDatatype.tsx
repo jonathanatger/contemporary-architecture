@@ -1,8 +1,36 @@
+export interface buildingData extends buildingKnownData {}
+
+interface buildingKnownData {
+  adresse_forme_editoriale: string;
+  coordonnees: {
+    lon: number;
+    lat: number;
+  } | null;
+  titre_courant: string;
+  datation_de_l_edifice: string;
+  description_de_l_edifice: string;
+  auteur_de_l_edifice: string;
+}
+
+//Defining the information displayed when an address gets selected
+export interface BuildingInfoContextType {
+  titre: string;
+  adress: string;
+  date: string;
+  architect: string;
+  description: string;
+}
+// interface buildingAdditionalData extends buildingKnownData {
+//   [key: string]: string;
+// };
+
+//Previous queries had those datapoints
+/*
 export type buildingData = buildingKnownData & buildingAdditionalData;
 
 export type buildingKnownData = {
   adresse_affichage_wadrs: string;
-  coordonnees_geographiques_d_un_point_coor_lon_lat_coor: {
+  coordonnees: {
     lon: number;
     lat: number;
   };
@@ -15,3 +43,4 @@ export type buildingKnownData = {
 type buildingAdditionalData = {
   [key: string]: string;
 };
+*/

@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useMarkers } from "./gmapcomponents/Markers.js";
-import { useFetch } from "./gmapcomponents/dataFetching";
+import { useFetch, cleanGovernmentData } from "./gmapcomponents/dataFetching";
 import { Info } from "./gmapcomponents/Info.js";
 import { AdressSelector } from "./gmapcomponents/AdressSelector.js";
 
@@ -27,9 +27,14 @@ const MapsComponent = function (): React.JSX.Element {
   const [mapCenter, setMapCenter] =
     useState<google.maps.LatLngLiteral>(firstMapCenter);
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [isAdditionalInfoDisplayed, setIsAdditionalInfoDisplayed] =
+    useState(false);
   const [infoDisplayed, setInfoDisplayed] = useState({
-    display: false,
-    name: "blabla",
+    titre: "",
+    adress: "",
+    date: "",
+    architect: "",
+    description: "",
   });
 
   // Setting up the map
@@ -60,13 +65,27 @@ const MapsComponent = function (): React.JSX.Element {
   const { data, loading, error } = useFetch();
 
   // Placing the Markers of the buildings on the map
-  useMarkers(map, data, loading, infoDisplayed, setInfoDisplayed);
+  useMarkers(
+    map,
+    data,
+    loading,
+    infoDisplayed,
+    setInfoDisplayed,
+    setIsAdditionalInfoDisplayed
+  );
 
   return (
     <div className="relative h-full w-full">
       <div ref={ref} className="h-full w-full top-0 left-0 absolute" />
-      {infoDisplayed.display && <Info name={infoDisplayed.name} />}
-      {error && <h1 className="fixed text-3xl bg-red-800">{error}</h1>}
+      {isAdditionalInfoDisplayed && (
+        <Info
+          info={infoDisplayed}
+          setAdditionalInfoDisplayed={setIsAdditionalInfoDisplayed}
+        />
+      )}
+      {error && (
+        <h1 className="fixed text-3xl bg-red-800 top-0 m-2">{error}</h1>
+      )}
       <AdressSelector map={map} />
     </div>
   );
