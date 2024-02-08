@@ -82,23 +82,3 @@
 :root {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-
-.highlight {
-  div.compact {
-    display: none;
-  }
-
-  div.full {
-  }
-}
-
-.compacted {
-  div.compact {
-  }
-
-  div.full {
-    display: none;
-  }
-}
-.marker-font {
-}

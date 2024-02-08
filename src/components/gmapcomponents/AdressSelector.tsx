@@ -106,14 +106,10 @@ export function AdressSelector({ map }: { map: google.maps.Map | null }) {
   ) {
     if (!map || !placeResult) return;
 
-    if (placeResult.geometry?.viewport) {
-      map.fitBounds(placeResult.geometry.viewport);
-    } else {
-      const locationCoords = placeResult.geometry?.location;
-      if (!locationCoords) return;
-      map.setCenter(locationCoords);
-      map.setZoom(17);
-    }
+    const locationCoords = placeResult.geometry?.location;
+    if (!locationCoords) return;
+    map.panTo(locationCoords);
+    smoothZoom(map, 14, map.getZoom());
   }
 
   function onEnterKeyPressed(e: any) {
@@ -143,4 +139,29 @@ export function AdressSelector({ map }: { map: google.maps.Map | null }) {
       </div>
     </div>
   );
+}
+
+function smoothZoom(
+  map: google.maps.Map,
+  maxZoom: number,
+  currentZoom: number | undefined
+) {
+  if (currentZoom === undefined) return;
+  let zoomEventListener: google.maps.MapsEventListener;
+  if (currentZoom >= maxZoom) {
+    return;
+  } else {
+    //@ts-ignore
+    zoomEventListener = google.maps.event.addListener(
+      map,
+      "zoom_changed",
+      function (e: any) {
+        google.maps.event.removeListener(zoomEventListener);
+        smoothZoom(map, maxZoom, currentZoom + 1);
+      }
+    );
+    setTimeout(function () {
+      map.setZoom(currentZoom);
+    }, 180);
+  }
 }

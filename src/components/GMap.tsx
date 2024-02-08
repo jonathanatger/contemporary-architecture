@@ -1,9 +1,10 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useMarkers } from "./gmapcomponents/Markers.js";
-import { useFetch, cleanGovernmentData } from "./gmapcomponents/dataFetching";
+import { useFetch } from "./gmapcomponents/dataFetching";
 import { Info } from "./gmapcomponents/Info.js";
 import { AdressSelector } from "./gmapcomponents/AdressSelector.js";
+import data from "../../data.json";
 
 let MAPS_KEY = import.meta.env.VITE_MAPS_KEY;
 
@@ -24,12 +25,10 @@ if ("geolocation" in navigator) {
 // Component defining the logic around the Map item
 const MapsComponent = function (): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const [mapCenter, setMapCenter] =
-    useState<google.maps.LatLngLiteral>(firstMapCenter);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [isAdditionalInfoDisplayed, setIsAdditionalInfoDisplayed] =
     useState(false);
-  const [infoDisplayed, setInfoDisplayed] = useState({
+  const [additionalInfoDisplayed, setAdditionalInfoDisplayed] = useState({
     titre: "",
     adress: "",
     date: "",
@@ -42,7 +41,7 @@ const MapsComponent = function (): React.JSX.Element {
     if (ref.current && !map) {
       setMap(
         new window.google.maps.Map(ref.current, {
-          center: mapCenter,
+          center: firstMapCenter,
           zoom: firstZoom,
           mapId: "fb0ed05d8f32c234",
           zoomControl: true,
@@ -56,21 +55,18 @@ const MapsComponent = function (): React.JSX.Element {
     }
   }, [ref, map]);
 
-  // Recentering the map
-  useEffect(() => {
-    map?.setCenter(mapCenter);
-  }, [mapCenter]);
-
   // Fetching the data to display
-  const { data, loading, error } = useFetch();
+  // const { data, loading, error } = useFetch();
+  let loading = false;
+  let error = false;
+  //==========================================================================================
 
-  // Placing the Markers of the buildings on the map
-  useMarkers(
+  // isolating the Marker logic
+  const { currentHighlightedMarkerElement, changeMarkerHighlight } = useMarkers(
     map,
     data,
     loading,
-    infoDisplayed,
-    setInfoDisplayed,
+    setAdditionalInfoDisplayed,
     setIsAdditionalInfoDisplayed
   );
 
@@ -79,8 +75,10 @@ const MapsComponent = function (): React.JSX.Element {
       <div ref={ref} className="h-full w-full top-0 left-0 absolute" />
       {isAdditionalInfoDisplayed && (
         <Info
-          info={infoDisplayed}
+          info={additionalInfoDisplayed}
           setAdditionalInfoDisplayed={setIsAdditionalInfoDisplayed}
+          currentHighlightedMarkerElement={currentHighlightedMarkerElement}
+          changeMarkerHighlight={changeMarkerHighlight}
         />
       )}
       {error && (
