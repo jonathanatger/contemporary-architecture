@@ -1,6 +1,4 @@
-export interface buildingData extends buildingKnownData {}
-
-interface buildingKnownData {
+export interface BuildingData {
   adresse_forme_editoriale: string;
   coordonnees: {
     lon: number;
@@ -13,12 +11,24 @@ interface buildingKnownData {
 }
 
 //Defining the information displayed when an address gets selected
-export interface BuildingInfoContextType {
+export interface BuildingInfoType {
   titre: string;
-  adress: string;
+  adresse: string;
   date: string;
-  architect: string;
+  auteur: string;
   description: string;
+  coordonnees: {
+    lon: number;
+    lat: number;
+  } | null;
+}
+
+export interface SimplifiedBuildingInfoType {
+  ref: string;
+  coordonnees: {
+    lat: number;
+    lon: number;
+  } | null;
 }
 // interface buildingAdditionalData extends buildingKnownData {
 //   [key: string]: string;

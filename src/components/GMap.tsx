@@ -2,10 +2,16 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useMarkers } from "./gmapcomponents/Markers.js";
 import { useFetch } from "./gmapcomponents/dataFetching";
+import { useImports } from "./gmapcomponents/mapsImports.js";
 import { Info } from "./gmapcomponents/Info.js";
 import { AdressSelector } from "./gmapcomponents/AdressSelector.js";
+import {
+  BuildingInfoType,
+  SimplifiedBuildingInfoType,
+} from "./gmapcomponents/buildingDatatype.js";
 import data from "../../data.json";
 
+let simplifiedData = data as SimplifiedBuildingInfoType[];
 let MAPS_KEY = import.meta.env.VITE_MAPS_KEY;
 
 //iniating the placement of the map
@@ -24,23 +30,32 @@ if ("geolocation" in navigator) {
 
 // Component defining the logic around the Map item
 const MapsComponent = function (): React.JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const [apiImportsLoading, setApiImportsLoading] = useState(true);
   const [map, setMap] = useState<google.maps.Map | null>(null);
+
+  const HTMLreference = useRef<HTMLDivElement>(null);
   const [isAdditionalInfoDisplayed, setIsAdditionalInfoDisplayed] =
     useState(false);
   const [additionalInfoDisplayed, setAdditionalInfoDisplayed] = useState({
     titre: "",
-    adress: "",
+    adresse: "",
     date: "",
-    architect: "",
+    auteur: "",
     description: "",
-  });
+    coordonnees: null,
+  } as BuildingInfoType | null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
+  const [reference, setReference] = useState("");
+
+  // Additional imports of the google maps Api handled here
+  useImports(setApiImportsLoading, setError);
 
   // Setting up the map
   useEffect(() => {
-    if (ref.current && !map) {
+    if (HTMLreference.current && !map) {
       setMap(
-        new window.google.maps.Map(ref.current, {
+        new window.google.maps.Map(HTMLreference.current, {
           center: firstMapCenter,
           zoom: firstZoom,
           mapId: "fb0ed05d8f32c234",
@@ -53,38 +68,42 @@ const MapsComponent = function (): React.JSX.Element {
         })
       );
     }
-  }, [ref, map]);
-
-  // Fetching the data to display
-  // const { data, loading, error } = useFetch();
-  let loading = false;
-  let error = false;
-  //==========================================================================================
+  }, []);
 
   // isolating the Marker logic
   const { currentHighlightedMarkerElement, changeMarkerHighlight } = useMarkers(
     map,
-    data,
-    loading,
-    setAdditionalInfoDisplayed,
-    setIsAdditionalInfoDisplayed
+    simplifiedData,
+    setIsAdditionalInfoDisplayed,
+    setReference,
+    apiImportsLoading
   );
+
+  // data fetching logic
+  useFetch(reference, setLoading, setError, setAdditionalInfoDisplayed);
 
   return (
     <div className="relative h-full w-full">
-      <div ref={ref} className="h-full w-full top-0 left-0 absolute" />
+      <div
+        ref={HTMLreference}
+        className="h-full w-full top-0 left-0 absolute"
+      />
       {isAdditionalInfoDisplayed && (
         <Info
           info={additionalInfoDisplayed}
           setAdditionalInfoDisplayed={setIsAdditionalInfoDisplayed}
           currentHighlightedMarkerElement={currentHighlightedMarkerElement}
           changeMarkerHighlight={changeMarkerHighlight}
+          loading={loading}
         />
       )}
       {error && (
-        <h1 className="fixed text-3xl bg-red-800 top-0 m-2">{error}</h1>
+        <h1 className="fixed text-sm bg-red-800 top-0 m-2 rounded-sm">
+          Erreur : {error}
+        </h1>
       )}
-      <AdressSelector map={map} />
+
+      <AdressSelector map={map} apiImportsLoading={apiImportsLoading} />
     </div>
   );
 };

@@ -1,47 +1,31 @@
 import { useEffect, useState, useRef, MutableRefObject } from "react";
-import { buildingData, BuildingInfoContextType } from "./buildingDatatype";
+import { SimplifiedBuildingInfoType } from "./buildingDatatype";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
-
-async function initMarker(): Promise<void> {
-  // @ts-ignore
-  const { AdvancedMarkerElement, PinElement } =
-    (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
-}
 
 export function useMarkers(
   map: google.maps.Map | null,
-  // cleanedData: buildingData[],
-  cleanedData: any,
-  // loading: boolean,
-  setInfoDisplayed: React.Dispatch<
-    React.SetStateAction<BuildingInfoContextType>
-  >,
-  setIsAdditionalInfoDisplayed: React.Dispatch<React.SetStateAction<boolean>>
+  simplifiedData: SimplifiedBuildingInfoType[],
+  setIsAdditionalInfoDisplayed: React.Dispatch<React.SetStateAction<boolean>>,
+  setReference: React.Dispatch<React.SetStateAction<string>>,
+  apiImportsLoading: boolean
 ) {
-  // const infoWindow = new google.maps.InfoWindow();
   const [markers, setMarkers] = useState<
     google.maps.marker.AdvancedMarkerElement[]
   >([]);
   const currentHighlightedMarkerElement =
     useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    initMarker().then((res) => setIsLoading(false));
-  }, []);
-
-  useEffect(() => {
-    if (!cleanedData || isLoading) return;
+    if (apiImportsLoading) return;
 
     let markersArray = [];
-    for (const building of cleanedData) {
-      // if (building.coordonnees === null) continue;
-      if (building.position === null) continue;
+    for (const building of simplifiedData) {
+      if (building.coordonnees === null) continue;
 
       let markerElement = new google.maps.marker.AdvancedMarkerElement({
         position: {
-          lat: building.position.lat,
-          lng: building.position.lon,
+          lat: building.coordonnees.lat,
+          lng: building.coordonnees.lon,
         },
         map: map,
         content: buildInfoTextBox(1),
@@ -53,17 +37,8 @@ export function useMarkers(
           currentHighlightedMarkerElement,
           setIsAdditionalInfoDisplayed
         );
-        setInfoDisplayed({
-          titre: building.ref,
-          adress: "",
-          date: "",
-          architect: "",
-          description: "",
-          // adress: building.adresse_forme_editoriale,
-          // date: building.datation_de_l_edifice,
-          // architect: building.auteur_de_l_edifice,
-          // description: building.description_de_l_edifice,
-        });
+
+        setReference(building.ref);
       });
 
       markersArray.push(markerElement);
@@ -82,7 +57,8 @@ export function useMarkers(
           zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
         }),
     };
-    const clusterer = new MarkerClusterer({ map, renderer }); //new MarkerClusterer({map, markersArray})
+
+    const clusterer = new MarkerClusterer({ map, renderer });
     clusterer.addMarkers(markersArray);
 
     return () => {
@@ -90,7 +66,7 @@ export function useMarkers(
         element.map = null;
       });
     };
-  }, [cleanedData, isLoading]);
+  }, [apiImportsLoading]);
 
   function changeMarkerHighlight(
     markerElement: google.maps.marker.AdvancedMarkerElement,

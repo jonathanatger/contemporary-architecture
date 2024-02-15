@@ -1,16 +1,19 @@
 //useFetch.js
 import { useState, useEffect } from "react";
-import { buildingData } from "./buildingDatatype";
+import { BuildingData, BuildingInfoType } from "./buildingDatatype";
 
-export function useFetch() {
-  const [url, setUrl] = useState<string>(
-    "https://data.culture.gouv.fr/api/explore/v2.1/catalog/datasets/liste-des-edifices-labellises-architecture-contemporaine-remarquable-acr/records?limit=100"
-  );
-  const [data, setData] = useState<buildingData[]>([] as buildingData[]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<null | string>(null);
+export function useFetch(
+  reference: string,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setAdditionalInfoDisplayed: React.Dispatch<
+    React.SetStateAction<BuildingInfoType | null>
+  >
+) {
+  const url = `https://data.culture.gouv.fr/api/explore/v2.1/catalog/datasets/liste-des-edifices-labellises-architecture-contemporaine-remarquable-acr/records?where=reference_de_la_notice%20%3D%20%22${reference}%22&limit=1`;
 
   useEffect(() => {
+    if (reference === "") return;
     setLoading(true);
     setError(null);
 
@@ -20,13 +23,12 @@ export function useFetch() {
       headers: _headers,
     })
       .then((res) => {
-        setLoading(false);
-
         // @ts-ignore
         return res.json();
       })
       .then((response) => {
-        setData(cleanGovernmentData(response.results));
+        setAdditionalInfoDisplayed(cleanGovernmentData(response.results));
+        setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
@@ -35,49 +37,47 @@ export function useFetch() {
         );
         console.log(err);
       });
-  }, [url]);
-
-  return { data, loading, error };
+  }, [reference]);
 }
 
-export function cleanGovernmentData(
-  data: buildingData[] | null | undefined
-): buildingData[] {
-  let cleanedData = [] as buildingData[];
+function cleanGovernmentData(
+  data: BuildingData[] | null | undefined
+): BuildingInfoType | null {
+  if (data === null || data === undefined) return null;
 
-  data?.forEach((building) => {
-    let titre = building.titre_courant
-      ? building.titre_courant
-          .toLocaleUpperCase()
-          // Replace opening and closing quotes
-          .replace(/^"(.+(?="$))"$/, "$1")
-      : "Pas de titre donné à la réalisation.";
+  let building = data[0];
 
-    let auteur = building.auteur_de_l_edifice
-      ? building.auteur_de_l_edifice
-      : "Pas d'auteur attribué.";
+  let titre = building.titre_courant
+    ? building.titre_courant
+        .toLocaleUpperCase()
+        // Replace opening and closing quotes
+        .replace(/^"(.+(?="$))"$/, "$1")
+    : "Pas de titre donné à la réalisation.";
 
-    let datation = building.datation_de_l_edifice
-      ? building.datation_de_l_edifice
-      : "Pas de dates données à la réalisation";
+  let auteur = building.auteur_de_l_edifice
+    ? building.auteur_de_l_edifice
+    : "Pas d'auteur attribué.";
 
-    let description = building.description_de_l_edifice
-      ? building.description_de_l_edifice
-      : "Pas de description disponible.";
+  let datation = building.datation_de_l_edifice
+    ? building.datation_de_l_edifice
+    : "Pas de dates données à la réalisation";
 
-    let adresse = building.adresse_forme_editoriale
-      ? building.adresse_forme_editoriale
-      : "-";
+  let description = building.description_de_l_edifice
+    ? building.description_de_l_edifice
+    : "Pas de description disponible.";
 
-    cleanedData.push({
-      adresse_forme_editoriale: adresse,
-      coordonnees: building.coordonnees ? building.coordonnees : null,
-      titre_courant: titre,
-      auteur_de_l_edifice: auteur,
-      datation_de_l_edifice: datation,
-      description_de_l_edifice: description,
-    });
-  });
+  let adresse = building.adresse_forme_editoriale
+    ? building.adresse_forme_editoriale
+    : "-";
+
+  let cleanedData: BuildingInfoType = {
+    adresse: adresse,
+    coordonnees: building.coordonnees ? building.coordonnees : null,
+    titre: titre,
+    auteur: auteur,
+    date: datation,
+    description: description,
+  };
 
   return cleanedData;
 }

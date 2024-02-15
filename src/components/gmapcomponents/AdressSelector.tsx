@@ -1,26 +1,26 @@
-import { MouseEventHandler, useEffect } from "react";
-async function initPlacesApi(): Promise<void> {
-  // @ts-ignore
-  const { Autocomplete, PlaceResult, AutocompleteService, PlacesService } =
-    (await google.maps.importLibrary("places")) as google.maps.PlacesLibrary;
-}
+import { useEffect } from "react";
 
 let autocomplete: google.maps.places.Autocomplete | null;
 let service: google.maps.places.AutocompleteService | null;
 
-export function AdressSelector({ map }: { map: google.maps.Map | null }) {
+export function AdressSelector({
+  map,
+  apiImportsLoading,
+}: {
+  map: google.maps.Map | null;
+  apiImportsLoading: boolean;
+}) {
   useEffect(() => {
-    initPlacesApi().then(() => {
-      service = new google.maps.places.AutocompleteService();
+    if (apiImportsLoading) return;
+    service = new google.maps.places.AutocompleteService();
 
-      setupAutocompleteDropdownOnInput();
-    });
+    setupAutocompleteDropdownOnInput();
 
     return () => {
       //No method in the api to remove the listener on the Autocomplete object
       // otherwise it would be here
     };
-  }, []);
+  }, [apiImportsLoading]);
 
   // First way to set the map at a given adress : Creating an autocomplete window
   // the user will get results on, and be able to click on them
@@ -51,9 +51,10 @@ export function AdressSelector({ map }: { map: google.maps.Map | null }) {
     });
   }
 
-  // Second method to set the map on a given adress : on button click, this will fire and try to match the adress given by the user
+  // Second method to set the map on a given adress :
+  // on button click, this will fire and try to match the adress given by the user
   // and set the map on the most likely address
-  function goToAdressOnEvent(e: any) {
+  function goToAdressOnEvent() {
     const adressInput = document.getElementById(
       "adress-input"
     ) as HTMLInputElement;
@@ -98,8 +99,6 @@ export function AdressSelector({ map }: { map: google.maps.Map | null }) {
     }
   }
 
-  // zooms on the chose adress / location decided by the user
-  // once it has been identified
   function setMapsOnChosenAdress(
     map: google.maps.Map | null,
     placeResult: google.maps.places.PlaceResult | null
@@ -113,14 +112,14 @@ export function AdressSelector({ map }: { map: google.maps.Map | null }) {
   }
 
   function onEnterKeyPressed(e: any) {
-    if (e.keyCode === 13) goToAdressOnEvent(e);
+    if (e.keyCode === 13) goToAdressOnEvent();
   }
 
   return (
-    <div className="absolute w-full h-full flex flex-col justify-start items-center pointer-events-none">
+    <div className="absolute flex flex-col items-center  w-full h-full pointer-events-none">
       <div
         id="pac-container"
-        className="w-5/6 bg-white mt-2 p-2 shadow-lg rounded-md pointer-events-auto">
+        className=" w-5/6 bg-white mt-32 p-2 shadow-lg rounded-md pointer-events-auto  z-50">
         <input
           id="adress-input"
           name="adress-input"
@@ -155,7 +154,7 @@ function smoothZoom(
     zoomEventListener = google.maps.event.addListener(
       map,
       "zoom_changed",
-      function (e: any) {
+      function () {
         google.maps.event.removeListener(zoomEventListener);
         smoothZoom(map, maxZoom, currentZoom + 1);
       }
