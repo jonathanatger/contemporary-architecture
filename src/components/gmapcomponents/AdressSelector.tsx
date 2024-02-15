@@ -116,10 +116,10 @@ export function AdressSelector({
   }
 
   return (
-    <div className="absolute flex flex-col items-center  w-full h-full pointer-events-none">
+    <div className="absolute flex flex-row justify-center items-start  w-full h-full pointer-events-none ">
       <div
         id="pac-container"
-        className=" w-5/6 bg-white mt-32 p-2 shadow-lg rounded-md pointer-events-auto  z-50">
+        className="grow bg-white mx-4 mt-32 p-2 shadow-lg rounded-md pointer-events-auto  z-50">
         <input
           id="adress-input"
           name="adress-input"
@@ -161,6 +161,6 @@ function smoothZoom(
     );
     setTimeout(function () {
       map.setZoom(currentZoom);
-    }, 180);
+    }, 80);
   }
 }

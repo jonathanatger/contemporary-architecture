@@ -79,7 +79,8 @@ export function useMarkers(
         "highlight",
         "outline",
         "outline-4",
-        "outline-red-500"
+        "outline-red-500",
+        "rounded-sm"
       );
       // @ts-ignore
       currentHighlightedMarkerElement.current.content.style.zIndex = "auto";
@@ -95,7 +96,8 @@ export function useMarkers(
         "highlight",
         "outline",
         "outline-4",
-        "outline-amber-500"
+        "outline-amber-500",
+        "rounded-sm"
       );
       markerElement.style.zIndex = "40";
       currentHighlightedMarkerElement.current = markerElement;
