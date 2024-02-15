@@ -125,7 +125,7 @@ export function AdressSelector({
           name="adress-input"
           type="text"
           placeholder="Aller à..."
-          className="w-5/6 h-8"
+          className="w-5/6 h-8 text-sm"
           onKeyDown={onEnterKeyPressed}
           required
         />

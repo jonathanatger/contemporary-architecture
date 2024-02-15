@@ -11,6 +11,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sixtyfour: ["Sixtyfour", "sans-serif"],
+      josefin: ["Josefin sans", "sans-serif"],
     },
     container: {
       center: true,

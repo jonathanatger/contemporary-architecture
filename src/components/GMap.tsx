@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useMarkers } from "./gmapcomponents/Markers.js";
 import { useFetch } from "./gmapcomponents/dataFetching";
@@ -10,6 +10,7 @@ import {
   SimplifiedBuildingInfoType,
 } from "./gmapcomponents/buildingDatatype.js";
 import data from "../../data.json";
+import { menuVisibleContext } from "../App.js";
 
 let simplifiedData = data as SimplifiedBuildingInfoType[];
 let MAPS_KEY = import.meta.env.VITE_MAPS_KEY;
@@ -47,6 +48,7 @@ const MapsComponent = function (): React.JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
   const [reference, setReference] = useState("");
+  const menuVisibleContextObject = useContext(menuVisibleContext);
 
   // Additional imports of the google maps Api handled here
   useImports(setApiImportsLoading, setError);
@@ -68,7 +70,22 @@ const MapsComponent = function (): React.JSX.Element {
         })
       );
     }
+    if (!map) return;
   }, []);
+
+  //adding a listener to hide the menu when going into Street View
+  useEffect(() => {
+    if (!map) return;
+
+    google.maps.event.addListener(
+      map.getStreetView(),
+      "visible_changed",
+      function () {
+        if (menuVisibleContextObject.dispatch)
+          menuVisibleContextObject.dispatch((prev) => !prev);
+      }
+    );
+  }, [map]);
 
   // isolating the Marker logic
   const { currentHighlightedMarkerElement, changeMarkerHighlight } = useMarkers(
@@ -103,7 +120,9 @@ const MapsComponent = function (): React.JSX.Element {
         </h1>
       )}
 
-      <AdressSelector map={map} apiImportsLoading={apiImportsLoading} />
+      {menuVisibleContextObject.visible && (
+        <AdressSelector map={map} apiImportsLoading={apiImportsLoading} />
+      )}
     </div>
   );
 };
