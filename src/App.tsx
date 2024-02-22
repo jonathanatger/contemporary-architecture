@@ -21,10 +21,10 @@ function App() {
         {menuIsVisible && (
           <div className="flex flex-row justify-center items-center w-full  absolute left-0 top-0 z-30 pointer-events-none">
             <div className="flex flex-col grow my-4 mx-4 max-w-screen-md justify-center bg-white h-24 items-center shadow-lg rounded-md">
-              <h1 className="text-3xl text-red-600 pb-2 font-sixtyfour ">
+              <h1 className="text-3xl text-amber-600 pb-2 font-sixtyfour ">
                 ArchiMap
               </h1>
-              <h2 className="text-red-600 text-sm px-2 text-center font-josefin text-balance">
+              <h2 className="text-amber-600 text-sm px-2 text-center font-josefin text-balance">
                 Édifices labellisés « Architecture contemporaine remarquable »
               </h2>
             </div>
