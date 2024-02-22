@@ -8,6 +8,7 @@ export interface BuildingData {
   datation_de_l_edifice: string;
   description_de_l_edifice: string;
   auteur_de_l_edifice: string;
+  description_historique: string;
 }
 
 //Defining the information displayed when an address gets selected
@@ -17,6 +18,7 @@ export interface BuildingInfoType {
   date: string;
   auteur: string;
   description: string;
+  description_historique: string;
   coordonnees: {
     lon: number;
     lat: number;

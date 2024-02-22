@@ -1,5 +1,4 @@
-//useFetch.js
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BuildingData, BuildingInfoType } from "./buildingDatatype";
 
 export function useFetch(
@@ -65,9 +64,13 @@ function cleanGovernmentData(
     ? building.description_de_l_edifice
     : "Pas de description disponible.";
 
+  let description_historique = building.description_historique
+    ? building.description_historique
+    : "Pas de description historique disponible.";
+
   let adresse = building.adresse_forme_editoriale
     ? building.adresse_forme_editoriale
-    : "-";
+    : "Pas d'adresse disponible.";
 
   let cleanedData: BuildingInfoType = {
     adresse: adresse,
@@ -76,6 +79,7 @@ function cleanGovernmentData(
     auteur: auteur,
     date: datation,
     description: description,
+    description_historique: description_historique,
   };
 
   return cleanedData;

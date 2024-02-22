@@ -30,7 +30,7 @@ function App() {
             </div>
           </div>
         )}
-        <div className="flex bg-violet-300  h-full w-full justify-center">
+        <div className="flex bg-slate-800  h-full w-full justify-center">
           <GoogleMap />
         </div>
       </div>
