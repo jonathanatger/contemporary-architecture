@@ -1,9 +1,6 @@
 import { useEffect, useState, useRef, MutableRefObject } from "react";
 import { SimplifiedBuildingInfoType } from "./buildingDatatype";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
-//force the import fot the bundler
-//@ts-ignore
-import Logo from "./building.svg";
 
 export function useMarkers(
   map: google.maps.Map | null,
