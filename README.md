@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# ArchiMap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Pourquoi ArchiMap ?
 
-Currently, two official plugins are available:
+Lors d'un déplacement, la première chose sur laquelle un architecte va se renseigner est la présence de bâtiments remarquables à visiter. L'expérience en direct d'une architecture est irremplaçable pour la constitution d'un bagage culturel solide. ArchiMap rend la recherche de bâtiments remarquables simple et rapide, en présentant de manière visuelle les emplacements et les informations des architectures contemporaines classées.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Comment ?
 
-## Expanding the ESLint configuration
+Le site se base sur l'API de Google Maps pour créer un plan interactif et l'API du gouvernement français pour les informations à afficher. L'interface est simple et se consacre à l'essentiel.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Technologies employées
 
-- Configure the top-level `parserOptions` property like this:
+- React
+- Vite
+- Tailwind
+- Typescript
+- Bun/Express
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+React, Vite, Bun, Express et Tailwind sont parmis les meilleurs choix pour un projet d'une page interactif et avec un backend très limité. Typescript est pensé pour faciliter la gestion des types de données issues des API.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+En ce qui concerne l'API Google Maps : L'objet `Map` pour la carte, `places.AutocompleteService` pour la recherche de localités, Map Styles pour garder la carte épurée et ne pas afficher d'objets parasites, `marker.AdvancedMarkerElement` pour la création de marqueurs personnalisés sur la carte, `MarkerClusterer` pour la gestion du regroupement des marqueurs selon le niveau de zoom.
+
+Ont été également mis au point une gestion du zoom progressif quand c'est possible, des éléments graphiques de remplacement durant les chargements (l'API de Google Maps demande des chargement de bibliothèque dynamiques), la gestion du passage à Street View.
+
+### Note sur la clef API Google Maps
+
+Celle-ci doit être accessible sur le client pour faire des requêtes. Celles-ci ne peuvent venir que d'un domaine précis et sont capées; en cas d'activité trop forte la clef sera inutilisable.
