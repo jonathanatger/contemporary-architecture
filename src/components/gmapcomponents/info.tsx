@@ -1,7 +1,7 @@
 import { MutableRefObject } from "react";
 import { BuildingInfoType } from "./buildingDatatype";
 
-export function Info({
+export const Info = function ({
   info,
   setAdditionalInfoDisplayed,
   currentHighlightedMarkerElement,
@@ -33,7 +33,7 @@ export function Info({
       {loading ? <LoadingElement /> : <InfoElement info={info} />}
     </div>
   );
-}
+};
 
 const LoadingElement = function () {
   return (
