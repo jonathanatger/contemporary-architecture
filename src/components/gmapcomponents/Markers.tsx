@@ -15,6 +15,8 @@ export function useMarkers(
   const currentHighlightedMarkerElement =
     useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
 
+  // as additional libraries get dynamically loaded on the page, it fires off
+  // the initialization of the markers locating the buildings on the map
   useEffect(() => {
     if (apiImportsLoading) return;
 
@@ -107,8 +109,6 @@ export function useMarkers(
   //useMarker return the current selected Marker and a function to update it
   return { currentHighlightedMarkerElement, changeMarkerHighlight };
 }
-
-// @ts-ignore
 
 // Format the results on the map
 function buildInfoTextBox(number: number) {

@@ -70,7 +70,6 @@ const MapsComponent = function (): React.JSX.Element {
         })
       );
     }
-    if (!map) return;
   }, []);
 
   //adding a listener to hide the menu when going into Street View
@@ -85,6 +84,10 @@ const MapsComponent = function (): React.JSX.Element {
           menuVisibleContextObject.dispatch((prev) => !prev);
       }
     );
+
+    return () => {
+      // no way to remove the listener in the API
+    };
   }, [map]);
 
   // isolating the Marker logic
@@ -105,6 +108,7 @@ const MapsComponent = function (): React.JSX.Element {
         ref={HTMLreference}
         className="h-full w-full top-0 left-0 absolute"
       />
+
       {isAdditionalInfoDisplayed && (
         <Info
           info={additionalInfoDisplayed}
@@ -114,6 +118,7 @@ const MapsComponent = function (): React.JSX.Element {
           loading={loading}
         />
       )}
+
       {error && (
         <h1 className="fixed text-sm bg-red-800 top-0 m-2 rounded-sm">
           Erreur : {error}
@@ -128,17 +133,22 @@ const MapsComponent = function (): React.JSX.Element {
 };
 
 // Checks if the Map loaded and displays a status report if not
-const render = function (status: Status): ReactElement {
+const MapRenderer = function (status: Status): ReactElement {
   if (status === Status.SUCCESS)
     return (
       <div className="h-full w-full">
         <MapsComponent />
       </div>
     );
-  else return <h3>{status}</h3>;
+  // else
+  return (
+    <h3 className="h-full w-full flex justify-center items-center">
+      STATUS : {status}
+    </h3>
+  );
 };
 
 // Wrapper component makes the call to the Google Maps API and renders the render component
 export const GoogleMap = function () {
-  return <Wrapper apiKey={MAPS_KEY} render={render}></Wrapper>;
+  return <Wrapper apiKey={MAPS_KEY} render={MapRenderer}></Wrapper>;
 };

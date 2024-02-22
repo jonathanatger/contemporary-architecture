@@ -119,13 +119,13 @@ export function AdressSelector({
     <div className="absolute flex flex-row justify-center items-start  w-full h-full pointer-events-none ">
       <div
         id="pac-container"
-        className="grow bg-white mx-4 mt-32 p-2 shadow-lg rounded-md pointer-events-auto  z-50">
+        className="grow bg-white mx-4 mt-32 p-2 max-w-screen-md shadow-lg rounded-md pointer-events-auto  z-50">
         <input
           id="adress-input"
           name="adress-input"
           type="text"
           placeholder="Aller à..."
-          className="w-5/6 h-8 text-sm"
+          className="w-5/6 h-8 text-sm "
           onKeyDown={onEnterKeyPressed}
           required
         />
