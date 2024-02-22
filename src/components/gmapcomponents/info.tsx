@@ -1,7 +1,7 @@
 import { MutableRefObject } from "react";
 import { BuildingInfoType } from "./buildingDatatype";
 
-export const Info = function ({
+export const InfoDisplay = function ({
   info,
   setAdditionalInfoDisplayed,
   currentHighlightedMarkerElement,

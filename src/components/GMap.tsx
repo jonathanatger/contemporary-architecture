@@ -3,7 +3,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useMarkers } from "./gmapcomponents/Markers.js";
 import { useFetch } from "./gmapcomponents/dataFetching";
 import { useImports } from "./gmapcomponents/mapsImports.js";
-import { Info } from "./gmapcomponents/Info.js";
+import { InfoDisplay } from "./gmapcomponents/Info.js";
 import { AdressSelector } from "./gmapcomponents/AdressSelector.js";
 import {
   BuildingInfoType,
@@ -110,7 +110,7 @@ const MapsComponent = function (): React.JSX.Element {
       />
 
       {isAdditionalInfoDisplayed && (
-        <Info
+        <InfoDisplay
           info={additionalInfoDisplayed}
           setAdditionalInfoDisplayed={setIsAdditionalInfoDisplayed}
           currentHighlightedMarkerElement={currentHighlightedMarkerElement}
