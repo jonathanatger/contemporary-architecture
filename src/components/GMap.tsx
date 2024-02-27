@@ -67,7 +67,7 @@ const MapsComponent = function (): React.JSX.Element {
           streetViewControl: true,
           rotateControl: false,
           fullscreenControl: false,
-        }),
+        })
       );
     }
   }, []);
@@ -82,7 +82,7 @@ const MapsComponent = function (): React.JSX.Element {
       function () {
         if (menuVisibleContextObject.dispatch)
           menuVisibleContextObject.dispatch((prev) => !prev);
-      },
+      }
     );
 
     return () => {
@@ -96,7 +96,7 @@ const MapsComponent = function (): React.JSX.Element {
     simplifiedData,
     setIsAdditionalInfoDisplayed,
     setReference,
-    apiImportsLoading,
+    apiImportsLoading
   );
 
   // data fetching logic
