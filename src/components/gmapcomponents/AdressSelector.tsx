@@ -5,22 +5,17 @@ let service: google.maps.places.AutocompleteService | null;
 
 export function AdressSelector({
   map,
-  apiImportsLoading,
+  apiImportsAreLoading,
 }: {
   map: google.maps.Map | null;
-  apiImportsLoading: boolean;
+  apiImportsAreLoading: boolean;
 }) {
   useEffect(() => {
-    if (apiImportsLoading) return;
+    if (apiImportsAreLoading) return;
     service = new google.maps.places.AutocompleteService();
 
     setupAutocompleteDropdownOnInput();
-
-    return () => {
-      //No method in the api to remove the listener on the Autocomplete object
-      // otherwise it would be here
-    };
-  }, [apiImportsLoading]);
+  }, [apiImportsAreLoading]);
 
   // First way to set the map at a given adress : Creating an autocomplete window
   // the user will get results on, and be able to click on them
@@ -31,13 +26,13 @@ export function AdressSelector({
       fields: ["formatted_address", "geometry", "name"],
       strictBounds: false,
     };
+
     autocomplete = new google.maps.places.Autocomplete(
       input,
-      autocompleteOptions,
+      autocompleteOptions
     );
 
     if (map) {
-      //@ts-ignore
       autocomplete.bindTo("bounds", map);
     }
 
@@ -56,7 +51,7 @@ export function AdressSelector({
   // and set the map on the most likely address
   function goToAdressOnEvent() {
     const adressInput = document.getElementById(
-      "adress-input",
+      "adress-input"
     ) as HTMLInputElement;
     const adressInputValue: string = adressInput.value;
 
@@ -64,7 +59,7 @@ export function AdressSelector({
 
     function serviceCallback(
       predictions: google.maps.places.AutocompletePrediction[] | null,
-      status: google.maps.places.PlacesServiceStatus,
+      status: google.maps.places.PlacesServiceStatus
     ) {
       if (status != google.maps.places.PlacesServiceStatus.OK) {
         alert(status);
@@ -79,13 +74,13 @@ export function AdressSelector({
           fields: ["name", "geometry"],
           region: "fr",
         },
-        detailsCallback,
+        detailsCallback
       );
     }
 
     function detailsCallback(
       placeResult: google.maps.places.PlaceResult | null,
-      status: google.maps.places.PlacesServiceStatus,
+      status: google.maps.places.PlacesServiceStatus
     ) {
       if (status != google.maps.places.PlacesServiceStatus.OK) {
         alert(status);
@@ -101,7 +96,7 @@ export function AdressSelector({
 
   function setMapsOnChosenAdress(
     map: google.maps.Map | null,
-    placeResult: google.maps.places.PlaceResult | null,
+    placeResult: google.maps.places.PlaceResult | null
   ) {
     if (!map || !placeResult) return;
 
@@ -119,8 +114,7 @@ export function AdressSelector({
     <div className="absolute flex flex-row justify-center items-start  w-full h-full pointer-events-none ">
       <div
         id="pac-container"
-        className="grow bg-white mx-4 mt-32 p-2 max-w-screen-md shadow-lg rounded-md pointer-events-auto  z-50"
-      >
+        className="grow bg-white mx-4 mt-32 p-2 max-w-screen-md shadow-lg rounded-md pointer-events-auto  z-50">
         <input
           id="adress-input"
           name="adress-input"
@@ -133,8 +127,7 @@ export function AdressSelector({
         <button
           id="adress-input-button"
           onClick={goToAdressOnEvent}
-          className="w-1/6 h-full min-w-10 py-1 border-2 rounded-sm shadow-none text-sm text-gray-800 border-amber-300 hover:border-amber-600"
-        >
+          className="w-1/6 h-full min-w-10 py-1 border-2 rounded-sm shadow-none text-sm text-gray-800 border-amber-300 hover:border-amber-600">
           C'est parti !
         </button>
       </div>
@@ -145,7 +138,7 @@ export function AdressSelector({
 function smoothZoom(
   map: google.maps.Map,
   maxZoom: number,
-  currentZoom: number | undefined,
+  currentZoom: number | undefined
 ) {
   if (currentZoom === undefined) return;
   let zoomEventListener: google.maps.MapsEventListener;
@@ -159,7 +152,7 @@ function smoothZoom(
       function () {
         google.maps.event.removeListener(zoomEventListener);
         smoothZoom(map, maxZoom, currentZoom + 1);
-      },
+      }
     );
     setTimeout(function () {
       map.setZoom(currentZoom);

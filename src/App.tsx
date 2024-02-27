@@ -2,13 +2,13 @@ import { GoogleMap } from "./components/GMap";
 import React, { useState, createContext } from "react";
 
 interface ContextInterface {
-  dispatch: React.Dispatch<React.SetStateAction<boolean>> | null;
+  setMenuVisible: React.Dispatch<React.SetStateAction<boolean>> | null;
   visible: boolean;
 }
 // Context necessary to pass down function to children of Google maps
 // component
 export const menuVisibleContext = createContext<ContextInterface>({
-  dispatch: null,
+  setMenuVisible: null,
   visible: true,
 });
 
@@ -16,7 +16,7 @@ function App() {
   const [menuIsVisible, setMenuIsVisible] = useState<boolean>(true);
   return (
     <menuVisibleContext.Provider
-      value={{ dispatch: setMenuIsVisible, visible: menuIsVisible }}>
+      value={{ setMenuVisible: setMenuIsVisible, visible: menuIsVisible }}>
       <main className="bg-amber-100 h-svh w-svw">
         {menuIsVisible && (
           <div className="flex flex-row justify-center items-center w-full absolute left-0 top-0 z-30 pointer-events-none">
@@ -40,7 +40,7 @@ function App() {
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-yellow-400"
+                className="inline w-8 h-8 text-gray-200 animate-spin fill-yellow-400"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg">

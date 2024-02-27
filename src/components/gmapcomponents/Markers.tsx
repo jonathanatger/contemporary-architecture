@@ -7,7 +7,7 @@ export function useMarkers(
   simplifiedData: SimplifiedBuildingInfoType[],
   setIsAdditionalInfoDisplayed: React.Dispatch<React.SetStateAction<boolean>>,
   setReference: React.Dispatch<React.SetStateAction<string>>,
-  apiImportsLoading: boolean
+  apiImportsAreLoading: boolean
 ) {
   const [markers, setMarkers] = useState<
     google.maps.marker.AdvancedMarkerElement[]
@@ -15,10 +15,11 @@ export function useMarkers(
   const currentHighlightedMarkerElement =
     useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
 
-  // as additional libraries get dynamically loaded on the page, it fires off
-  // the initialization of the markers locating the buildings on the map
+  // useEffect is used here to launch the initialization of the markers
+  // after the dynamic loading of the corresponding google maps libraries
+
   useEffect(() => {
-    if (apiImportsLoading) return;
+    if (apiImportsAreLoading) return;
 
     let markersArray = [];
     for (const building of simplifiedData) {
@@ -68,7 +69,7 @@ export function useMarkers(
         element.map = null;
       });
     };
-  }, [apiImportsLoading]);
+  }, [apiImportsAreLoading]);
 
   function changeMarkerHighlight(
     markerElement: google.maps.marker.AdvancedMarkerElement,

@@ -31,7 +31,7 @@ if ("geolocation" in navigator) {
 
 // Component defining the logic around the Map item
 const MapsComponent = function (): React.JSX.Element {
-  const [apiImportsLoading, setApiImportsLoading] = useState(true);
+  const [apiImportsAreLoading, setApiImportsAreLoading] = useState(true);
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const HTMLreference = useRef<HTMLDivElement>(null);
@@ -50,10 +50,8 @@ const MapsComponent = function (): React.JSX.Element {
   const [reference, setReference] = useState("");
   const menuVisibleContextObject = useContext(menuVisibleContext);
 
-  // Additional imports of the google maps Api handled here
-  useImports(setApiImportsLoading, setError);
+  useImports(setApiImportsAreLoading, setError);
 
-  // Setting up the map
   useEffect(() => {
     if (HTMLreference.current && !map) {
       setMap(
@@ -72,7 +70,6 @@ const MapsComponent = function (): React.JSX.Element {
     }
   }, []);
 
-  //adding a listener to hide the menu when going into Street View
   useEffect(() => {
     if (!map) return;
 
@@ -80,8 +77,8 @@ const MapsComponent = function (): React.JSX.Element {
       map.getStreetView(),
       "visible_changed",
       function () {
-        if (menuVisibleContextObject.dispatch)
-          menuVisibleContextObject.dispatch((prev) => !prev);
+        if (menuVisibleContextObject.setMenuVisible)
+          menuVisibleContextObject.setMenuVisible((visible) => !visible);
       }
     );
 
@@ -90,16 +87,14 @@ const MapsComponent = function (): React.JSX.Element {
     };
   }, [map]);
 
-  // isolating the Marker logic
   const { currentHighlightedMarkerElement, changeMarkerHighlight } = useMarkers(
     map,
     simplifiedData,
     setIsAdditionalInfoDisplayed,
     setReference,
-    apiImportsLoading
+    apiImportsAreLoading
   );
 
-  // data fetching logic
   useFetch(reference, setLoading, setError, setAdditionalInfoDisplayed);
 
   return (
@@ -126,13 +121,14 @@ const MapsComponent = function (): React.JSX.Element {
       )}
 
       {menuVisibleContextObject.visible && (
-        <AdressSelector map={map} apiImportsLoading={apiImportsLoading} />
+        <AdressSelector map={map} apiImportsAreLoading={apiImportsAreLoading} />
       )}
     </div>
   );
 };
 
-// Checks if the Map loaded and displays a loading screen if not
+// Checks if the Map loaded and displays a blank element if not
+// Loading screen is separate so that it appears before the Google maps component makes its requests, as soon as the website first loads
 const MapRenderer = function (status: Status): ReactElement {
   if (status === Status.SUCCESS)
     return (
@@ -143,7 +139,7 @@ const MapRenderer = function (status: Status): ReactElement {
   return <div></div>;
 };
 
-// Wrapper component makes the call to the Google Maps API and renders the render component
+// Wrapper component makes the call to the Google Maps API and renders the chosen component
 export const GoogleMap = function () {
   return <Wrapper apiKey={MAPS_KEY} render={MapRenderer}></Wrapper>;
 };
