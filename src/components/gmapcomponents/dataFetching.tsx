@@ -72,8 +72,12 @@ function cleanGovernmentData(
     ? building.adresse_forme_editoriale
     : "Pas d'adresse disponible.";
 
+  let commune = building.commune
+    ? building.commune
+    : "Pas d'adresse disponible.";
   let cleanedData: BuildingInfoType = {
     adresse: adresse,
+    commune: commune,
     coordonnees: building.coordonnees ? building.coordonnees : null,
     titre: titre,
     auteur: auteur,

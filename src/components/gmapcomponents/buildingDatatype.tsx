@@ -9,16 +9,19 @@ export interface BuildingData {
   description_de_l_edifice: string;
   auteur_de_l_edifice: string;
   description_historique: string;
+  commune: string;
 }
 
 //Defining the information displayed when an address gets selected
 export interface BuildingInfoType {
   titre: string;
   adresse: string;
+  commune: string;
   date: string;
   auteur: string;
   description: string;
   description_historique: string;
+
   coordonnees: {
     lon: number;
     lat: number;

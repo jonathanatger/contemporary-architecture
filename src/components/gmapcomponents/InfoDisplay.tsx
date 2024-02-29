@@ -53,7 +53,9 @@ const InfoElement = function ({ info }: { info: BuildingInfoType | null }) {
       <h2 className="pb-2">{info?.titre}</h2>
       <h3 className="pb-2 italic text-sm">Auteur(s) : {info?.auteur}</h3>
       <h2 className="pb-2 italic text-sm">Datation : {info?.date}</h2>
-      <h2 className="pb-2 italic text-sm">Adresse : {info?.adresse}</h2>
+      <h2 className="pb-2 italic text-sm">
+        Adresse : {info?.adresse + ", " + info?.commune}
+      </h2>
       <h3 className="pb-2 text-sm">{info?.description}</h3>
       <h3 className="text-sm">{info?.description_historique}</h3>
     </div>

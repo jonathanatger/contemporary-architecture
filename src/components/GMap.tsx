@@ -115,7 +115,7 @@ const MapsComponent = function (): React.JSX.Element {
       )}
 
       {error && (
-        <h1 className="fixed text-sm bg-red-800 top-0 m-2 rounded-sm">
+        <h1 className="fixed text-sm bg-amber-800 top-96 m-2 rounded-sm">
           Erreur : {error}
         </h1>
       )}
