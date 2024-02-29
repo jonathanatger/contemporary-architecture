@@ -4,6 +4,8 @@
 
 Lors d'un déplacement, la première chose sur laquelle un architecte va se renseigner est la présence de bâtiments remarquables à visiter. L'expérience en direct d'une architecture est irremplaçable pour la constitution d'un bagage culturel solide. ArchiMap rend la recherche de bâtiments remarquables simple et rapide, en présentant de manière visuelle les emplacements et les informations des architectures contemporaines classées.
 
+<img width="819" alt="ArchiMapMain" src="https://github.com/jonathanatger/contemporary-architecture/assets/50679537/e7479a9e-d9b3-4605-baac-c7328a5eefa2">
+
 ## Comment ?
 
 Le site se base sur l'API de Google Maps pour créer un plan interactif et l'API du gouvernement français pour les informations à afficher. L'interface est simple et se consacre à l'essentiel.
