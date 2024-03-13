@@ -1,5 +1,7 @@
 # ArchiMap
 
+[![My Skills](https://skillicons.dev/icons?i=ts,vite,tailwind,react)](https://skillicons.dev)
+
 ## Pourquoi ArchiMap ?
 
 Lors d'un déplacement, la première chose sur laquelle un architecte va se renseigner est la présence de bâtiments remarquables à visiter. L'expérience en direct d'une architecture est irremplaçable pour la constitution d'un bagage culturel solide. ArchiMap rend la recherche de bâtiments remarquables simple et rapide, en présentant de manière visuelle les emplacements et les informations des architectures contemporaines classées.
@@ -12,7 +14,6 @@ Le site se base sur l'API de Google Maps pour créer un plan interactif et l'API
 
 ### Technologies employées
 
-[![My Skills](https://skillicons.dev/icons?i=ts)](https://skillicons.dev)
 - React
 - Vite
 - Tailwind
