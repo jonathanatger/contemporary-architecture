@@ -12,6 +12,7 @@ Le site se base sur l'API de Google Maps pour créer un plan interactif et l'API
 
 ### Technologies employées
 
+[![My Skills](https://skillicons.dev/icons?i=ts)](https://skillicons.dev)
 - React
 - Vite
 - Tailwind
