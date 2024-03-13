@@ -1,5 +1,7 @@
 # ArchiMap
 
+Aller sur le site [ici](archimap.jonathanatger.com)
+
 [![My Skills](https://skillicons.dev/icons?i=ts,vite,tailwind,react)](https://skillicons.dev)
 
 ## Pourquoi ArchiMap ?
@@ -29,3 +31,4 @@ Ont été également mis au point une gestion du zoom progressif quand c'est pos
 ### Note sur la clef API Google Maps
 
 Celle-ci doit être accessible depuis le client pour faire des requêtes, et ne peux donc pas être cachées en tant que variable d'environnement. Les requêtes utilisant cette clef sont configurées pour venir d'un domaine précis et sont capées; en cas d'activité trop forte la clef sera rendue inutilisable.
+
