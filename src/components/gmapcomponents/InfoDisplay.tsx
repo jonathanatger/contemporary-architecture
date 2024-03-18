@@ -50,7 +50,7 @@ const LoadingElement = function () {
 const InfoElement = function ({ info }: { info: BuildingInfoType | null }) {
   return (
     <div className="bg-white h-full w-full mr-16 ml-4 md:mr-4 max-w-4/5 md:max-w-screen-md p-2 shadow-lg rounded-md  overflow-y-auto pointer-events-auto">
-      <h2 className="pb-2">{info?.titre}</h2>
+      <h2 className="pb-2 text-amber-600 font-bold">{info?.titre}</h2>
       <h3 className="pb-2 italic text-sm">Auteur(s) : {info?.auteur}</h3>
       <h2 className="pb-2 italic text-sm">Datation : {info?.date}</h2>
       <h2 className="pb-2 italic text-sm">

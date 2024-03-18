@@ -21,7 +21,6 @@ export interface BuildingInfoType {
   auteur: string;
   description: string;
   description_historique: string;
-
   coordonnees: {
     lon: number;
     lat: number;

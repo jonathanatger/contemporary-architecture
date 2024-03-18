@@ -1,6 +1,7 @@
 import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useMarkers } from "./gmapcomponents/Markers.js";
+import { useUserLocation } from "./gmapcomponents/userLocation.js";
 import { useFetch } from "./gmapcomponents/dataFetching";
 import { useImports } from "./gmapcomponents/mapsImports.js";
 import { InfoDisplay } from "./gmapcomponents/InfoDisplay.js";
@@ -94,6 +95,8 @@ const MapsComponent = function (): React.JSX.Element {
     setReference,
     apiImportsAreLoading
   );
+
+  useUserLocation(map, apiImportsAreLoading);
 
   useFetch(reference, setLoading, setError, setAdditionalInfoDisplayed);
 
