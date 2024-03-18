@@ -82,7 +82,7 @@ export function useMarkers(
         "highlight",
         "outline",
         "outline-4",
-        "outline-amber-700",
+        "outline-amber-600",
         "rounded-sm"
       );
       // @ts-ignore
@@ -99,7 +99,7 @@ export function useMarkers(
         "highlight",
         "outline",
         "outline-4",
-        "outline-amber-700",
+        "outline-amber-600",
         "rounded-sm"
       );
       markerElement.style.zIndex = "40";

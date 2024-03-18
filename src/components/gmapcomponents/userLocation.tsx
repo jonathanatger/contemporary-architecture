@@ -38,7 +38,7 @@ function userLocationBox() {
         height: 0; 
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-top: 15px solid rgb(180, 83, 9)"/>
+        border-top: 15px solid rgb(217, 119, 6)"/>
 
     </div>
    `;
