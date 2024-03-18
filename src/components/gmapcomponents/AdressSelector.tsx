@@ -114,20 +114,20 @@ export function AdressSelector({
     <div className="absolute flex flex-row justify-center items-start  w-full h-full pointer-events-none ">
       <div
         id="pac-container"
-        className="grow bg-white mx-4 mt-32 p-2 max-w-screen-md shadow-lg rounded-md pointer-events-auto  z-50">
+        className="grow flex justify-between items-center bg-white mx-4 mt-32 p-1 max-w-screen-md shadow-lg rounded-md pointer-events-auto  z-50">
         <input
           id="adress-input"
           name="adress-input"
           type="text"
           placeholder="Aller à..."
-          className="w-5/6 h-8 text-sm "
+          className="min-w-60 h-8 text-sm "
           onKeyDown={onEnterKeyPressed}
           required
         />
         <button
           id="adress-input-button"
           onClick={goToAdressOnEvent}
-          className="w-1/6 h-full min-w-10 py-1 border-2 rounded-sm shadow-none text-sm text-gray-800 border-amber-300 hover:border-amber-600">
+          className="p-2 whitespace-nowrap border-2 rounded-sm shadow-none text-sm text-gray-800 border-amber-300 hover:border-amber-600">
           C'est parti !
         </button>
       </div>
