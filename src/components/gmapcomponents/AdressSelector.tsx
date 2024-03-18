@@ -127,7 +127,7 @@ export function AdressSelector({
         <button
           id="adress-input-button"
           onClick={goToAdressOnEvent}
-          className="p-2 whitespace-nowrap border-2 rounded-sm shadow-none text-sm text-gray-800 border-amber-300 hover:border-amber-600">
+          className="p-2 w-5/6 border-2 rounded-sm shadow-none text-sm text-gray-800 border-amber-300 hover:border-amber-600">
           C'est parti !
         </button>
       </div>
