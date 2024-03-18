@@ -1,20 +1,16 @@
-import { useEffect, useState, useRef, MutableRefObject } from "react";
+import { useEffect } from "react";
 
 export function useUserLocation(
   map: google.maps.Map | null,
   apiImportsAreLoading: boolean
 ) {
-  const [userLocation, setUserLocation] = useState<
-    google.maps.marker.AdvancedMarkerElement[]
-  >([]);
-
   useEffect(() => {
     if (apiImportsAreLoading) return;
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          let markerElement = new google.maps.marker.AdvancedMarkerElement({
+          new google.maps.marker.AdvancedMarkerElement({
             position: {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -38,7 +34,7 @@ function userLocationBox() {
         height: 0; 
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-top: 15px solid rgb(217, 119, 6)"/>
+        border-top: 15px solid rgb(180, 83, 9)"/>
 
     </div>
    `;
