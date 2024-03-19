@@ -14,6 +14,7 @@ export const menuVisibleContext = createContext<ContextInterface>({
 
 function App() {
   const [menuIsVisible, setMenuIsVisible] = useState<boolean>(true);
+
   return (
     <menuVisibleContext.Provider
       value={{ setMenuVisible: setMenuIsVisible, visible: menuIsVisible }}>

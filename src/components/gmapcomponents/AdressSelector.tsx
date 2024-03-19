@@ -1,3 +1,4 @@
+import { argv } from "process";
 import { useEffect } from "react";
 
 let autocomplete: google.maps.places.Autocomplete | null;
@@ -10,16 +11,13 @@ export function AdressSelector({
   map: google.maps.Map | null;
   apiImportsAreLoading: boolean;
 }) {
+  // after api Imports resolve, launch the search service
   useEffect(() => {
     if (apiImportsAreLoading) return;
     service = new google.maps.places.AutocompleteService();
 
-    setupAutocompleteDropdownOnInput();
-  }, [apiImportsAreLoading]);
-
-  // First way to set the map at a given adress : Creating an autocomplete window
-  // the user will get results on, and be able to click on them
-  function setupAutocompleteDropdownOnInput() {
+    // First way to set the map at a given adress : Creating an autocomplete window
+    // the user will get results on, and be able to click on them
     const input = document.getElementById("adress-input") as HTMLInputElement;
 
     const autocompleteOptions = {
@@ -44,7 +42,7 @@ export function AdressSelector({
 
       setMapsOnChosenAdress(map, placeResult);
     });
-  }
+  }, [apiImportsAreLoading]);
 
   // Second method to set the map on a given adress :
   // on button click, this will fire and try to match the adress given by the user
