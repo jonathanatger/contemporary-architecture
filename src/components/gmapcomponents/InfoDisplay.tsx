@@ -23,10 +23,10 @@ export const InfoDisplay = function ({
   }
 
   return (
-    <div className="h-1/4 ml-4 mb-8  w-full fixed bottom-0 pointer-events-none right-0 flex flex-row justify-center">
+    <div className="h-1/4 min-h-48 ml-4 mb-8  w-full fixed bottom-0 pointer-events-none right-0 flex flex-row justify-center">
       <button
         onClick={handleClick}
-        className="absolute top-0 right-2 w-12 bg-white z-40 overflow-auto rounded-md text-xl font-bold pointer-events-auto shadow-xl">
+        className="absolute top-0 right-2 w-12 bg-white z-40  overflow-auto rounded-md text-xl font-bold pointer-events-auto shadow-xl">
         X
       </button>
       {/* <LoadingElement /> */}

@@ -1,4 +1,3 @@
-import { argv } from "process";
 import { useEffect } from "react";
 
 let autocomplete: google.maps.places.Autocomplete | null;
@@ -112,13 +111,13 @@ export function AdressSelector({
     <div className="absolute flex flex-row justify-center items-start  w-full h-full pointer-events-none ">
       <div
         id="pac-container"
-        className="grow flex justify-between items-center bg-white mx-4 mt-32 p-1 max-w-screen-md shadow-lg rounded-md pointer-events-auto  z-50">
+        className="grow flex justify-between items-center bg-white mx-4 mt-32 p-1 max-w-screen-md shadow-lg rounded-md pointer-events-auto z-50">
         <input
           id="adress-input"
           name="adress-input"
           type="text"
           placeholder="Aller à..."
-          className="min-w-60 h-8 text-sm "
+          className="w-full pl-2 h-8 text-sm"
           onKeyDown={onEnterKeyPressed}
           required
         />
